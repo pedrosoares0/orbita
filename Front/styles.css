@@ -714,3 +714,180 @@ footer {
         margin: 10px 0;
     }
 }
+
+/* =============================
+   Estilos exclusivos - Login e Cadastro
+   ============================= */
+.login-page {
+  background: linear-gradient(to bottom right, var(--preto), var(--dark-laranja));
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.login-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.login-card h2 {
+  margin-bottom: 20px;
+  font-family: 'Folkmote Neue', sans-serif;
+  font-size: 2rem;
+  color: white;
+}
+
+.login-card form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-card input {
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.login-card button {
+  margin-top: 15px;
+  background-color: var(--laranja);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login-card button:hover {
+  background-color: var(--dark-laranja);
+}
+
+.links {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.links a {
+  color: var(--laranja);
+  text-decoration: none;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
+
+.cadastro-page {
+  background-color: var(--branco);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'SF UI Display', sans-serif;
+  color: #333;
+}
+
+.cadastro-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.cadastro-card {
+  background-color: white;
+  padding: 40px 30px;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.cadastro-card h2 {
+  margin-bottom: 20px;
+  font-family: 'Folkmote Neue', sans-serif;
+  font-size: 2rem;
+  color: var(--preto);
+}
+
+.cadastro-card form {
+  display: flex;
+  flex-direction: column;
+}
+
+.cadastro-card input {
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  font-size: 14px;
+}
+
+.cadastro-card button {
+  margin-top: 15px;
+  background-color: var(--laranja);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.cadastro-card button:hover {
+  background-color: var(--dark-laranja);
+}
+
+.login-link {
+  margin-top: 15px;
+  font-size: 0.9rem;
+}
+
+.login-link a {
+  color: var(--laranja);
+  text-decoration: none;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+.logo-voltar {
+  display: inline-block;
+  margin-bottom: 20px;
+  transition: transform 0.2s ease;
+}
+
+.logo-voltar img {
+  width: 60px;
+  height: auto;
+  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.2));
+}
+
+.logo-voltar:hover {
+  transform: scale(1.05);
+}
+
