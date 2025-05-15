@@ -25,4 +25,34 @@
     </div>
   </div>
 </body>
+
+<!-- SCRIPT DIRETO NA PÁGINA -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.querySelector('.cadastro-card form');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const nome = form.querySelector('input[placeholder="Nome"]').value;
+        const sobrenome = form.querySelector('input[placeholder="Sobrenome"]').value;
+        const email = form.querySelector('input[placeholder="Email"]').value;
+        const senha = form.querySelector('input[placeholder="Senha"]').value;
+
+        fetch('http://localhost:3000/cadastro', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nome, sobrenome, email, senha })
+        })
+        .then(res => res.json())
+        .then(data => {
+          alert(data.mensagem || 'Cadastro realizado com sucesso!');
+          window.location.href = 'login.html';
+        })
+        .catch(() => {
+          alert('Erro ao cadastrar.');
+        });
+      });
+    });
+  </script>
 </html>

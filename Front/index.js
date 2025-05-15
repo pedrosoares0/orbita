@@ -1,23 +1,41 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // Seleciona todos os botões com classe .cta-button ou .signup-button
-  const botoes = document.querySelectorAll('.cta-button, .signup-button');
+const express = require('express');
+const cors = require('cors');
+const bcrypt = require('bcrypt');
+const { Usuario } = require('../Back/models');
 
-  botoes.forEach(botao => {
-    botao.addEventListener('click', () => {
-      fetch('http://localhost:3000/cta-button', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ cursoId: 1 }), // Altere conforme necessário
-      })
-        .then(res => res.json())
-        .then(data => {
-          alert('Inscrição realizada com sucesso!');
-        })
-        .catch(err => {
-          alert('Erro ao realizar inscrição.');
-        });
+const app = express();
+const PORT = 3000;
+
+app.use(cors());
+app.use(express.json());
+
+// Rota de cadastro
+app.post('/cadastro', async (req, res) => {
+  const { nome, sobrenome, email, senha } = req.body;
+
+  try {
+    const usuarioExistente = await Usuario.findOne({ where: { email } });
+    if (usuarioExistente) {
+      return res.status(400).json({ mensagem: 'Email já está em uso.' });
+    }
+
+    const senhaHash = await bcrypt.hash(senha, 10);
+
+    await Usuario.create({
+      nome: `${nome} ${sobrenome}`,
+      email,
+      senha: senhaHash,
+      tipo: 'aluno'
     });
-  });
+
+    res.json({ mensagem: 'Usuário cadastrado com sucesso!' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ mensagem: 'Erro ao cadastrar usuário.' });
+  }
+});
+
+// Iniciar servidor
+app.listen(PORT, () => {
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
