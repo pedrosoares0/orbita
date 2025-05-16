@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portal do Aluno - Órbita</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      background-color: var(--preto);
+      color: var(--bege);
+      font-family: 'SF UI Display', sans-serif;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 240px;
+      background-color: var(--vinho);
+      min-height: 100vh;
+      padding: 40px 20px;
+      box-shadow: 4px 0 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .sidebar h2 {
+      font-family: 'Folkmote Neue';
+      color: var(--laranja);
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      margin: 20px 0;
+    }
+
+    .sidebar a {
+      color: var(--bege);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .sidebar a:hover {
+      color: var(--laranja);
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 60px;
+    }
+
+    .welcome {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      font-family: 'Folkmote Neue';
+    }
+
+    .info-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 14px;
+      padding: 30px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(8px);
+    }
+
+    .info-card h3 {
+      font-size: 1.2rem;
+      color: var(--laranja);
+      margin-bottom: 10px;
+    }
+
+    .progress-bar {
+      width: 100%;
+      background-color: #444;
+      height: 14px;
+      border-radius: 7px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      width: 60%;
+      height: 100%;
+      background-color: var(--laranja);
+    }
+
+    .actions {
+      margin-top: 30px;
+    }
+
+    .actions button {
+      background-color: var(--laranja);
+      border: none;
+      padding: 12px 24px;
+      color: white;
+      font-weight: bold;
+      border-radius: 20px;
+      margin-right: 15px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .actions button:hover {
+      background-color: var(--dark-laranja);
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Órbita</h2>
+    <ul>
+      <li><a href="#">Início</a></li>
+      <li><a href="#">Minhas Aulas</a></li>
+      <li><a href="#">Progresso</a></li>
+      <li><a href="#">Sair</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <div class="welcome">Bem-vindo, Pedro!</div>
+
+    <div class="info-card">
+      <h3>Curso Matriculado:</h3>
+      <p>Introdução ao Desenvolvimento Web</p>
+    </div>
+
+    <div class="info-card">
+      <h3>Progresso:</h3>
+      <p>6 de 10 aulas concluídas</p>
+      <div class="progress-bar">
+        <div class="progress-bar-fill"></div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h3>Última aula assistida:</h3>
+      <p>Aula 6 - Posicionamento com Flexbox</p>
+    </div>
+
+    <div class="actions">
+      <button>Continuar Aula</button>
+      <button>Baixar Material</button>
+    </div>
+  </div>
+</body>
+</html>

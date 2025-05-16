@@ -9,9 +9,9 @@
 <body class="cadastro-page">
   <div class="cadastro-wrapper">
     <div class="cadastro-card">
-        <a href="index.html" class="logo-voltar">
+      <a href="index.html" class="logo-voltar">
         <img src="logo.webp" alt="Voltar para home">
-        </a>
+      </a>
 
       <h2>Me inscrever</h2>
       <form>
@@ -19,6 +19,14 @@
         <input type="text" placeholder="Sobrenome" />
         <input type="email" placeholder="Email" />
         <input type="password" placeholder="Senha" />
+
+        <select>
+          <option value="" disabled selected>Selecione seu tipo de usuário</option>
+          <option value="aluno">Aluno</option>
+          <option value="professor">Professor</option>
+          <option value="coordenador">Coordenador</option>
+        </select>
+
         <button type="submit">Me inscrever!</button>
       </form>
       <p class="login-link">Já é inscrito? <a href="login.html">Entre aqui.</a></p>
@@ -27,32 +35,33 @@
 </body>
 
 <!-- SCRIPT DIRETO NA PÁGINA -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const form = document.querySelector('.cadastro-card form');
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('.cadastro-card form');
 
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
 
-        const nome = form.querySelector('input[placeholder="Nome"]').value;
-        const sobrenome = form.querySelector('input[placeholder="Sobrenome"]').value;
-        const email = form.querySelector('input[placeholder="Email"]').value;
-        const senha = form.querySelector('input[placeholder="Senha"]').value;
+      const nome = form.querySelector('input[placeholder="Nome"]').value;
+      const sobrenome = form.querySelector('input[placeholder="Sobrenome"]').value;
+      const email = form.querySelector('input[placeholder="Email"]').value;
+      const senha = form.querySelector('input[placeholder="Senha"]').value;
+      const tipo = form.querySelector('select').value;
 
-        fetch('http://localhost:3000/cadastro', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nome, sobrenome, email, senha })
-        })
-        .then(res => res.json())
-        .then(data => {
-          alert(data.mensagem || 'Cadastro realizado com sucesso!');
-          window.location.href = 'login.html';
-        })
-        .catch(() => {
-          alert('Erro ao cadastrar.');
-        });
+      fetch('http://localhost:3000/cadastro', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nome, sobrenome, email, senha, tipo })
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.mensagem || 'Cadastro realizado com sucesso!');
+        window.location.href = 'login.html';
+      })
+      .catch(() => {
+        alert('Erro ao cadastrar.');
       });
     });
-  </script>
+  });
+</script>
 </html>

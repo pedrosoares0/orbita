@@ -9,21 +9,33 @@
 <body class="login-page">
   <div class="login-wrapper">
     <div class="login-card">
-        <a href="index.html" class="logo-voltar">
+      <a href="index.html" class="logo-voltar">
         <img src="logo.webp" alt="Voltar para home">
-        </a>
+      </a>
 
       <h2>Login</h2>
-      <form>
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Senha" />
+      <form id="login-form">
+        <input type="email" placeholder="Email" required />
+        <input type="password" placeholder="Senha" required />
         <button type="submit">Entrar</button>
       </form>
+
       <div class="links">
         <a href="cadastro.html">Não é inscrito? Criar conta</a>
         <a href="#">Esqueci minha senha</a>
       </div>
     </div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('login-form');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        window.location.href = 'portalAluno.html';
+      });
+    });
+  </script>
 </body>
 </html>
