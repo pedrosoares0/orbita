@@ -230,7 +230,7 @@ nav {
 
 /* Hero Section */
 .hero {
-    background: url('astronauta.webp') no-repeat center center;
+    background: url('imagens/astronauta.webp') no-repeat center center;
     background-size: cover;
     min-height: 100vh;
     display: flex;

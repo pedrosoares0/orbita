@@ -1,17 +1,25 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Portal do Aluno - Órbita</title>
-  <link rel="stylesheet" href="styles.css" />
-  
+  <title>Aulas - Órbita</title>
+
   <style>
+    :root {
+      --preto: #121212;
+      --bege: #f0e7db;
+      --vinho: #3b0a2a;
+      --laranja: #f57c00;
+      --dark-laranja: #bb4d00;
+    }
+
     body {
       background-color: var(--preto);
       color: var(--bege);
       font-family: 'SF UI Display', sans-serif;
       display: flex;
+      margin: 0;
     }
 
     .sidebar {
@@ -23,7 +31,7 @@
     }
 
     .sidebar h2 {
-      font-family: 'Folkmote Neue';
+      font-family: 'Folkmote Neue', sans-serif;
       color: var(--laranja);
       font-size: 1.5rem;
       margin-bottom: 30px;
@@ -57,7 +65,7 @@
     .welcome {
       font-size: 2rem;
       margin-bottom: 20px;
-      font-family: 'Folkmote Neue';
+      font-family: 'Folkmote Neue', sans-serif;
     }
 
     .info-card {
@@ -107,28 +115,43 @@
     .actions button:hover {
       background-color: var(--dark-laranja);
     }
+
+    iframe {
+      border: none;
+      border-radius: 14px;
+      margin-top: 20px;
+    }
+
+.logo-voltar img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 30px;
+}
+.logo-voltar img {
+  max-width: 180px;
+  height: auto;
+  display: block;
+  margin: 0 auto 30px;
+}
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <a href="index.html" class="logo-voltar">
-      <img src="imagens/logo.webp" alt="Voltar para home">
+    <div class="sidebar">
+        <a href="index.html" class="logo-voltar">
+            <img src="imagens/logo.webp" alt="Voltar para home">
+          </a>
     <ul>
-      <li><a href="#">Início</a></li>
-      <li><a href="#">Minhas Aulas</a></li>
-      <li><a href="#">Progresso</a></li>
+      <li><a href="portalAluno.html">Início</a></li>
+      <li><a href="#">Cursos</a></li>
+      <li><a href="#">Perfil</a></li>
       <li><a href="#">Sair</a></li>
     </ul>
-  </div>
-
+</div>
   <div class="main-content">
-    <div class="welcome">Bem-vindo, Pedro!</div>
+    <h2 class="welcome">Aulas Cyber Segurança</h2>
 
-    <div class="info-card">
-      <h3>Curso Matriculado:</h3>
-      <p>Introdução ao Desenvolvimento Web</p>
-    </div>
-
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/tgbNymZ7vqY" allowfullscreen></iframe>
     <div class="info-card">
       <h3>Progresso:</h3>
       <p>6 de 10 aulas concluídas</p>
@@ -136,15 +159,9 @@
         <div class="progress-bar-fill"></div>
       </div>
     </div>
-
-    <div class="info-card">
-      <h3>Última aula assistida:</h3>
-      <p>Aula 6 - Posicionamento com Flexbox</p>
-    </div>
-
     <div class="actions">
-      <button class="button" onclick="location.href='aula_cybersec.html'"><span></span> Continuar Aula</button>
-      <button>Baixar Material</button>
+      <button>Aula anterior</button>
+      <button>Próxima aula</button>
     </div>
   </div>
 </body>
