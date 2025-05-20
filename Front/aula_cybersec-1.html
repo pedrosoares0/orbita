@@ -3,15 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Portal do Aluno - Órbita</title>
-  <link rel="stylesheet" href="styles.css" />
-  
+  <title>Aulas - Órbita</title>
+
   <style>
+    :root {
+      --preto: #121212;
+      --bege: #f0e7db;
+      --vinho: #3b0a2a;
+      --laranja: #f57c00;
+      --dark-laranja: #bb4d00;
+    }
+
     body {
       background-color: var(--preto);
       color: var(--bege);
       font-family: 'SF UI Display', sans-serif;
       display: flex;
+      margin: 0;
     }
 
     .sidebar {
@@ -60,6 +68,15 @@
       font-family: 'Folkmote Neue';
     }
 
+    iframe {
+      border: none;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 720px;
+      height: 405px;
+      margin-bottom: 30px;
+    }
+
     .info-card {
       background-color: rgba(255, 255, 255, 0.05);
       border-radius: 14px;
@@ -83,7 +100,7 @@
     }
 
     .progress-bar-fill {
-      width: 60%;
+      width: 10%;
       height: 100%;
       background-color: var(--laranja);
     }
@@ -107,6 +124,13 @@
     .actions button:hover {
       background-color: var(--dark-laranja);
     }
+
+    .logo-voltar img {
+      max-width: 180px;
+      height: auto;
+      display: block;
+      margin: 0 auto 30px;
+    }
   </style>
 </head>
 <body>
@@ -121,28 +145,21 @@
   </div>
 
   <div class="main-content">
-    <div class="welcome">Bem-vindo, Pedro!</div>
+    <div class="welcome">Aulas Cyber Segurança</div>
+    <div>Introdução a Cyber Segurança</div>
 
-    <div class="info-card">
-      <h3>Curso Matriculado:</h3>
-      <p>Introdução a Cyber Segurança</p>
-    </div>
+    <iframe src="https://www.youtube.com/embed/tgbNymZ7vqY" allowfullscreen></iframe>
 
     <div class="info-card">
       <h3>Progresso:</h3>
-      <p>6 de 10 aulas concluídas</p>
+      <p>1 de 10 aulas concluídas</p>
       <div class="progress-bar">
-        <div class="progress-bar-fill"></div>
+        <div class="progress-bar-fill" style="width: 10%;"></div>
       </div>
     </div>
 
-    <div class="info-card">
-      <h3>Última aula assistida:</h3>
-      <p>Aula 6 - Análise de Malware e Engenharia Reversa</p>
-    </div>
-
     <div class="actions">
-      <button class="button" onclick="location.href='aula_cybersec-6.html'"><span></span> Continuar Aula</button>
+      <button onclick="location.href='aula_cybersec-2.html'">Próxima aula</button>
       <button>Baixar Material</button>
     </div>
   </div>
