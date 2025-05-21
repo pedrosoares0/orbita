@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Portal do Aluno - Órbita</title>
   <link rel="stylesheet" href="styles.css" />
-  
+
   <style>
     body {
       background-color: var(--preto);
@@ -83,9 +83,10 @@
     }
 
     .progress-bar-fill {
-      width: 60%;
+      width: 0%;
       height: 100%;
       background-color: var(--laranja);
+      transition: width 0.3s ease;
     }
 
     .actions {
@@ -107,44 +108,70 @@
     .actions button:hover {
       background-color: var(--dark-laranja);
     }
+
+    .curso-box {
+      margin-bottom: 40px;
+    }
   </style>
 </head>
 <body>
   <div class="sidebar">
     <a href="index.html" class="logo-voltar">
       <img src="imagens/logo.webp" alt="Voltar para home">
+    </a>
     <ul>
       <li><a href="portalAluno.html">Início</a></li>
-      <li><a href="minhas_aulas_cybersec.html">Minhas Aulas</a></li>
+      <li><a href="minhasAulas.html">Minhas Aulas</a></li>
       <li><a href="login.html">Sair</a></li>
     </ul>
   </div>
 
   <div class="main-content">
-    <div class="welcome">Bem-vindo!</div>
+    <div class="welcome" id="boasVindas">Bem-vindo!</div>
 
-    <div class="info-card">
-      <h3>Curso Matriculado:</h3>
-      <p>Introdução a Cyber Segurança</p>
-    </div>
-
-    <div class="info-card">
-      <h3>Progresso:</h3>
-      <p>6 de 10 aulas concluídas</p>
-      <div class="progress-bar">
-        <div class="progress-bar-fill"></div>
-      </div>
-    </div>
-
-    <div class="info-card">
-      <h3>Última aula assistida:</h3>
-      <p>Aula 6 - Análise de Malware e Engenharia Reversa</p>
-    </div>
-
-    <div class="actions">
-      <button class="button" onclick="location.href='aula_cybersec-6.html'"><span></span> Continuar Aula</button>
-      <button>Baixar Material</button>
+    <div id="cursosContainer">
+      <!-- Os cursos serão carregados aqui dinamicamente -->
     </div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const nome = localStorage.getItem('nomeUsuario') || 'Aluno';
+      const cursos = JSON.parse(localStorage.getItem('cursosUsuario')) || [];
+
+      document.getElementById('boasVindas').textContent = `Bem-vindo, ${nome.split(' ')[0]}!`;
+
+      const container = document.getElementById('cursosContainer');
+
+      if (cursos.length === 0) {
+        container.innerHTML = "<p>Nenhum curso matriculado. Volte e selecione seus cursos.</p>";
+        return;
+      }
+
+      cursos.forEach(curso => {
+        const cursoHTML = `
+          <div class="info-card curso-box">
+            <h3>Curso Matriculado:</h3>
+            <p>${curso}</p>
+
+            <h3 style="margin-top:20px;">Progresso:</h3>
+            <p>0 de 10 aulas concluídas</p>
+            <div class="progress-bar">
+              <div class="progress-bar-fill" style="width: 0%;"></div>
+            </div>
+
+            <h3 style="margin-top:20px;">Última aula assistida:</h3>
+            <p>Ainda não iniciada</p>
+
+            <div class="actions">
+              <button onclick="alert('Você ainda não iniciou este curso!')">Começar Curso</button>
+              <button>Baixar Material</button>
+            </div>
+          </div>
+        `;
+        container.insertAdjacentHTML('beforeend', cursoHTML);
+      });
+    });
+  </script>
 </body>
 </html>

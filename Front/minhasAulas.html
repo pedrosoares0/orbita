@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Minhas Aulas - Órbita</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      background-color: var(--preto);
+      color: var(--bege);
+      font-family: 'SF UI Display', sans-serif;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 240px;
+      background-color: var(--vinho);
+      min-height: 100vh;
+      padding: 40px 20px;
+      box-shadow: 4px 0 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .sidebar h2 {
+      font-family: 'Folkmote Neue';
+      color: var(--laranja);
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      margin: 20px 0;
+    }
+
+    .sidebar a {
+      color: var(--bege);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .sidebar a:hover {
+      color: var(--laranja);
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 60px;
+    }
+
+    .welcome {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      font-family: 'Folkmote Neue';
+    }
+
+    .info-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 14px;
+      padding: 30px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(8px);
+    }
+
+    .info-card h3 {
+      font-size: 1.2rem;
+      color: var(--laranja);
+      margin-bottom: 10px;
+    }
+
+    .aula-lista {
+      margin-top: 10px;
+      padding-left: 20px;
+    }
+
+    .aula-lista li {
+      margin-bottom: 10px;
+    }
+
+    .aula-lista a {
+      color: var(--bege);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .aula-lista a:hover {
+      color: var(--laranja);
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <a href="index.html" class="logo-voltar">
+      <img src="imagens/logo.webp" alt="Voltar para home">
+    </a>
+    <ul>
+      <li><a href="portalAluno.html">Início</a></li>
+      <li><a href="minhasAulas.html">Minhas Aulas</a></li>
+      <li><a href="login.html">Sair</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <div class="welcome" id="boasVindas">Bem-vindo!</div>
+
+    <div id="aulasContainer">
+      <!-- Cursos e aulas inseridos aqui -->
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const nome = localStorage.getItem('nomeUsuario') || 'Aluno';
+      const cursos = JSON.parse(localStorage.getItem('cursosUsuario')) || [];
+
+      const nomePrimeiro = nome.split(' ')[0];
+      document.getElementById('boasVindas').textContent = `Bem-vindo, ${nomePrimeiro}!`;
+
+      const aulasPorCurso = {
+        'UX/UI Design': [
+          'Introdução ao Design',
+          'Princípios de UX',
+          'Wireframes e Protótipos',
+          'Figma Avançado',
+          'Design Systems',
+          'Mobile First',
+          'Acessibilidade',
+          'Psicologia das Cores',
+          'Testes de Usabilidade',
+          'Portfólio Profissional'
+        ],
+        'Programação': [
+          'Lógica de Programação',
+          'Algoritmos',
+          'JavaScript Básico',
+          'Funções e Objetos',
+          'DOM e Eventos',
+          'Node.js',
+          'APIs REST',
+          'Banco de Dados',
+          'Autenticação',
+          'Projeto Final'
+        ],
+        'Cyber Segurança': [
+          'Introdução à Cyber Segurança',
+          'Redes Linux',
+          'Redes Windows',
+          'Sistemas Operacionais',
+          'Programação Estruturada',
+          'Análise de Malware',
+          'Firewall',
+          'Arquitetura de Redes',
+          'Arquitetura de Segurança',
+          'Blockchain'
+        ],
+        'Ciência de Dados': [
+          'Introdução à Ciência de Dados',
+          'Estatística Básica',
+          'Python para Dados',
+          'Manipulação com Pandas',
+          'Visualização com Matplotlib',
+          'Machine Learning I',
+          'Machine Learning II',
+          'Redes Neurais',
+          'Big Data',
+          'Projeto com Dados Reais'
+        ]
+      };
+
+      const container = document.getElementById('aulasContainer');
+
+      if (cursos.length === 0) {
+        container.innerHTML = "<p>Você ainda não está matriculado em nenhum curso.</p>";
+        return;
+      }
+
+      cursos.forEach(curso => {
+        const aulas = aulasPorCurso[curso] || [];
+        const listaHTML = aulas.map((aula, index) => `<li><a href="#">${index + 1}. ${aula}</a></li>`).join('');
+
+        container.insertAdjacentHTML('beforeend', `
+          <div class="info-card">
+            <h3>${curso}</h3>
+            <ul class="aula-lista">${listaHTML}</ul>
+          </div>
+        `);
+      });
+    });
+  </script>
+</body>
+</html>

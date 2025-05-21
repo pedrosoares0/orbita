@@ -882,6 +882,40 @@ footer {
   background-color: var(--dark-laranja);
 }
 
+.cadastro-card select,
+.cadastro-card .cursos input[type="checkbox"] {
+  accent-color: #e65100; /* cor do laranja usado no botão */
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.cadastro-card select {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background-color: #f5f5f5;
+  color: #333;
+  font-weight: 500;
+  box-shadow: 0 0 4px rgba(0,0,0,0.1);
+}
+
+.cadastro-card .cursos label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  font-weight: 500;
+  color: #222;
+}
+
+.cadastro-card .cursos {
+  margin-top: 15px;
+  padding: 10px 0;
+  border-top: 1px solid #ddd;
+}
+
+
 .login-link {
   margin-top: 15px;
   font-size: 0.9rem;
