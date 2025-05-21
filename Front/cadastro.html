@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,46 +7,45 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="cadastro-page">
-  <div class="cadastro-wrapper">
-    <div class="cadastro-card">
-      <a href="index.html" class="logo-voltar">
+<body class="login-page">
+  <div class="login-wrapper">
+    <div class="login-card cadastro-card">
+      <a href="index.html" class="logo-voltar" style="text-align: center;">
         <img src="imagens/logo.webp" alt="Voltar para home">
       </a>
 
-      <h2>inscrição</h2>
-      <form>
-        <input type="text" placeholder="Nome" />
-        <input type="text" placeholder="Sobrenome" />
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Senha" />
+      <h2>Inscrição</h2>
 
-        <select>
-          <option value="" disabled selected>Selecione seu tipo de usuário</option>
-          <option value="aluno">Aluno</option>
-          <option value="professor">Professor</option>
-          <option value="coordenador">Coordenador</option>
-        </select>
+      <form class="cadastro-form">
+        <div class="form-lados">
+          <!-- Formulário agora na esquerda -->
+          <div class="form-esquerda">
+            <input type="text" placeholder="Nome" required />
+            <input type="text" placeholder="Sobrenome" required />
+            <input type="email" placeholder="Email" required />
+            <input type="password" placeholder="Senha" required />
+          </div>
 
-        <div class="cursos">
-        <p style="margin-bottom: 8px; font-weight: 600;">Selecione seus cursos:</p>
-        <label><input type="checkbox" value="UX/UI Design" /> UX/UI Design</label>
-        <label><input type="checkbox" value="Programação" /> Programação</label>
-        <label><input type="checkbox" value="Cyber Segurança" /> Cyber Segurança</label>
-        <label><input type="checkbox" value="Ciência de Dados" /> Ciência de Dados</label>
-      </div>
-
+          <!-- Cursos na direita -->
+          <div class="form-direita">
+            <p style="margin-bottom: 12px; font-weight: 600;">Selecione seus cursos:</p>
+            <label><input type="checkbox" value="UX/UI Design" /> UX/UI Design</label>
+            <label><input type="checkbox" value="Programação" /> Programação</label>
+            <label><input type="checkbox" value="Cyber Segurança" /> Cyber Segurança</label>
+            <label><input type="checkbox" value="Ciência de Dados" /> Ciência de Dados</label>
+          </div>
+        </div>
 
         <button type="submit">Me inscrever!</button>
+        <p class="login-link">Já é inscrito? <a href="login.html">Entre aqui.</a></p>
       </form>
-      <p class="login-link">Já é inscrito? <a href="login.html">Entre aqui.</a></p>
     </div>
   </div>
 </body>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    const form = document.querySelector('.cadastro-card form');
+    const form = document.querySelector('.cadastro-form');
 
     form.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -56,14 +54,12 @@
       const sobrenome = form.querySelector('input[placeholder="Sobrenome"]').value;
       const email = form.querySelector('input[placeholder="Email"]').value;
       const senha = form.querySelector('input[placeholder="Senha"]').value;
-      const tipo = form.querySelector('select').value;
-
-      const cursosSelecionados = Array.from(form.querySelectorAll('.cursos input:checked')).map(c => c.value);
+      const cursosSelecionados = Array.from(form.querySelectorAll('input[type="checkbox"]:checked')).map(c => c.value);
 
       fetch('http://localhost:3000/cadastro', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nome, sobrenome, email, senha, tipo, cursos: cursosSelecionados })
+        body: JSON.stringify({ nome, sobrenome, email, senha, tipo: 'aluno', cursos: cursosSelecionados })
       })
         .then(res => res.json())
         .then(data => {
@@ -72,9 +68,7 @@
           localStorage.setItem('cursosUsuario', JSON.stringify(cursosSelecionados));
           window.location.href = 'login.html';
         })
-        .catch(() => {
-          alert('Erro ao cadastrar.');
-        });
+        .catch(() => alert('Erro ao cadastrar.'));
     });
   });
 </script>
