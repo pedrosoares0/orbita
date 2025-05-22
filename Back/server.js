@@ -1,4 +1,3 @@
-
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
@@ -55,7 +54,13 @@ app.post('/cadastro', async (req, res) => {
     });
 
     if (Array.isArray(cursos) && cursos.length > 0) {
-      await novoUsuario.setCursos(cursos); // relaciona com a tabela UsuariosCursos
+      const cursosSelecionados = await Curso.findAll({
+        where: {
+          titulo: cursos
+        }
+      });
+
+      await novoUsuario.addCursos(cursosSelecionados);
     }
 
     res.status(201).json({ mensagem: 'Cadastro realizado com sucesso!', usuario: novoUsuario });
