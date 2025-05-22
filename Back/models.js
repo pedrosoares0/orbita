@@ -1,3 +1,4 @@
+
 const { Sequelize, DataTypes } = require('sequelize');
 const database = new Sequelize('Projetoo', 'root', 'neto', {
   host: 'localhost',
@@ -28,6 +29,11 @@ const Curso = database.define('Curso', {
   categoria: DataTypes.STRING(50),
   carga_horaria: DataTypes.INTEGER
 });
+
+// RELAÇÃO USUARIO-CURSO (N:N)
+const UsuariosCursos = database.define('UsuariosCursos', {}, { timestamps: false });
+Usuario.belongsToMany(Curso, { through: UsuariosCursos, foreignKey: 'usuario_id' });
+Curso.belongsToMany(Usuario, { through: UsuariosCursos, foreignKey: 'curso_id' });
 
 // TURMAS
 const Turma = database.define('Turma', {
@@ -109,6 +115,7 @@ module.exports = {
   Plano,
   Usuario,
   Curso,
+  UsuariosCursos,
   Turma,
   AlunosTurmas,
   Modulo,

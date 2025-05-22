@@ -2,36 +2,28 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-
-const { Curso, Usuario, database } = require('./models');
+const { Usuario, Curso, UsuariosCursos, database } = require('./models');
 
 const app = express();
 const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
-
-// Serve todos os arquivos estáticos da pasta Front
 app.use(express.static(path.join(__dirname, '../Front')));
 
-// Serve o index.html na rota /
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../Front/index.html'));
 });
 
-// Testar conexão com o banco
 database.authenticate()
   .then(() => console.log('Conectado ao MySQL com Sequelize.'))
   .catch(err => console.error('Erro de conexão:', err));
 
-// Rota para listar cursos
 app.get('/cursos', async (req, res) => {
   try {
     const cursos = await Curso.findAll();
-    const cursosJson = cursos.map(curso => curso.toJSON());
-    res.json(cursosJson);
+    res.json(cursos.map(curso => curso.toJSON()));
   } catch (err) {
-    console.error('Erro ao buscar cursos:', err);
     res.status(500).json({ erro: 'Erro ao buscar cursos.', detalhes: err.message });
   }
 });
@@ -43,14 +35,13 @@ app.post('/cta-button', (req, res) => {
 });
 
 app.post('/cadastro', async (req, res) => {
-  const { nome, sobrenome, email, senha, tipo = 'aluno' } = req.body;
+  const { nome, sobrenome, email, senha, tipo = 'aluno', cursos = [] } = req.body;
 
   if (!nome || !sobrenome || !email || !senha) {
     return res.status(400).json({ mensagem: 'Preencha todos os campos obrigatórios.' });
   }
 
   try {
-    // Verificar se já existe usuário com o mesmo email
     const usuarioExistente = await Usuario.findOne({ where: { email } });
     if (usuarioExistente) {
       return res.status(409).json({ mensagem: 'Este email já está cadastrado.' });
@@ -62,6 +53,10 @@ app.post('/cadastro', async (req, res) => {
       senha,
       tipo
     });
+
+    if (Array.isArray(cursos) && cursos.length > 0) {
+      await novoUsuario.setCursos(cursos); // relaciona com a tabela UsuariosCursos
+    }
 
     res.status(201).json({ mensagem: 'Cadastro realizado com sucesso!', usuario: novoUsuario });
   } catch (error) {
@@ -84,7 +79,9 @@ app.post('/login', async (req, res) => {
       return res.status(401).json({ mensagem: 'Email ou senha incorretos.' });
     }
 
-    res.status(200).json({ mensagem: 'Login bem-sucedido!', usuario });
+    const cursos = await usuario.getCursos();
+
+    res.status(200).json({ mensagem: 'Login bem-sucedido!', usuario, cursos });
   } catch (error) {
     console.error('Erro no login:', error);
     res.status(500).json({ mensagem: 'Erro no processo de login.', detalhes: error.message });
