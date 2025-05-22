@@ -28,14 +28,33 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('login-form');
+    form.addEventListener('submit', (e) => {
+  e.preventDefault();
 
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        window.location.href = 'portalAluno.html';
-      });
+  const email = form.querySelector('input[type="email"]').value;
+  const senha = form.querySelector('input[type="password"]').value;
+
+  fetch('http://localhost:3000/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, senha })
+  })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Login inválido');
+      }
+      return res.json();
+    })
+    .then(data => {
+      alert(data.mensagem || 'Login realizado com sucesso!');
+      localStorage.setItem('nomeUsuario', data.usuario.nome);
+      window.location.href = 'portalAluno.html';
+    })
+    .catch(err => {
+      alert('Email ou senha incorretos.');
+      console.error(err);
     });
+});
   </script>
 </body>
 </html>
