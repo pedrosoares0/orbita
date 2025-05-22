@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -6,27 +7,21 @@
   <title>Cadastro - Órbita</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-
 <body class="login-page">
   <div class="login-wrapper">
     <div class="login-card cadastro-card">
       <a href="index.html" class="logo-voltar" style="text-align: center;">
         <img src="imagens/logo.webp" alt="Voltar para home">
       </a>
-
       <h2>Inscrição</h2>
-
       <form class="cadastro-form">
         <div class="form-lados">
-          <!-- Formulário agora na esquerda -->
           <div class="form-esquerda">
             <input type="text" placeholder="Nome" required />
             <input type="text" placeholder="Sobrenome" required />
             <input type="email" placeholder="Email" required />
             <input type="password" placeholder="Senha" required />
           </div>
-
-          <!-- Cursos na direita -->
           <div class="form-direita">
             <p style="margin-bottom: 12px; font-weight: 600;">Selecione seus cursos:</p>
             <label><input type="checkbox" value="UX/UI Design" /> UX/UI Design</label>
@@ -35,21 +30,17 @@
             <label><input type="checkbox" value="Ciência de Dados" /> Ciência de Dados</label>
           </div>
         </div>
-
         <button type="submit">Me inscrever!</button>
         <p class="login-link">Já é inscrito? <a href="login.html">Entre aqui.</a></p>
       </form>
     </div>
   </div>
 </body>
-
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('.cadastro-form');
-
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-
       const nome = form.querySelector('input[placeholder="Nome"]').value;
       const sobrenome = form.querySelector('input[placeholder="Sobrenome"]').value;
       const email = form.querySelector('input[placeholder="Email"]').value;
@@ -66,7 +57,7 @@
           alert(data.mensagem || 'Cadastro realizado com sucesso!');
           localStorage.setItem('nomeUsuario', `${nome} ${sobrenome}`);
           localStorage.setItem('cursosUsuario', JSON.stringify(cursosSelecionados));
-          window.location.href = 'login.html';
+          window.location.href = 'pagamento.html';
         })
         .catch(() => alert('Erro ao cadastrar.'));
     });

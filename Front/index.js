@@ -35,6 +35,29 @@ app.post('/cadastro', async (req, res) => {
   }
 });
 
+// Rota de login
+app.post('/login', async (req, res) => {
+  const { email, senha } = req.body;
+
+  try {
+    const usuario = await Usuario.findOne({ where: { email } });
+    if (!usuario) {
+      return res.status(400).json({ mensagem: 'Email ou senha inválidos.' });
+    }
+
+    const senhaValida = await bcrypt.compare(senha, usuario.senha);
+    if (!senhaValida) {
+      return res.status(400).json({ mensagem: 'Email ou senha inválidos.' });
+    }
+
+    res.json({ mensagem: 'Login realizado com sucesso!', usuario });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ mensagem: 'Erro ao realizar login.' });
+  }
+});
+
+
 // Iniciar servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);

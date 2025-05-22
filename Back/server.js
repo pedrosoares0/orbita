@@ -1,8 +1,9 @@
+
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
 
-const { Curso, database } = require('./models');
+const { Curso, Usuario, database } = require('./models');
 
 const app = express();
 const PORT = 3000;
@@ -40,6 +41,7 @@ app.post('/cta-button', (req, res) => {
   console.log(`Usuário se inscreveu no curso com ID: ${cursoId}`);
   res.json({ mensagem: 'Inscrição recebida com sucesso!' });
 });
+
 app.post('/cadastro', async (req, res) => {
   const { nome, sobrenome, email, senha, tipo = 'aluno' } = req.body;
 
@@ -57,7 +59,7 @@ app.post('/cadastro', async (req, res) => {
     const novoUsuario = await Usuario.create({
       nome: `${nome} ${sobrenome}`,
       email,
-      senha, // ⚠️ Ideal: use bcrypt para criptografar em produção
+      senha,
       tipo
     });
 
