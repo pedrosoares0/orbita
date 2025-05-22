@@ -6,4 +6,4 @@ database.authenticate()
     return database.sync();
   })
   .then(() => console.log('🟢 Tabelas sincronizadas.'))
-  .catch(err => console.error('🔴 Erro ao conectar:', err));
+  .catch(err => console.error('🔴 Erro ao conectar:', err));

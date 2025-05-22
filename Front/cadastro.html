@@ -50,22 +50,23 @@
         const sobrenome = form.querySelector('input[placeholder="Sobrenome"]').value;
         const email = form.querySelector('input[placeholder="Email"]').value;
         const senha = form.querySelector('input[placeholder="Senha"]').value;
-
-        const cursosSelecionados = Array.from(form.querySelectorAll('input[type="checkbox"]:checked')).map(c => parseInt(c.value));
+        const cursosSelecionados = Array.from(
+          form.querySelectorAll('input[type="checkbox"]:checked')
+        ).map(c => parseInt(c.value));
 
         fetch('http://localhost:3000/cadastro', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ nome, sobrenome, email, senha, tipo: 'aluno', cursos: cursosSelecionados })
         })
-          .then(res => res.json())
-          .then(data => {
-            alert(data.mensagem || 'Cadastro realizado com sucesso!');
-            localStorage.setItem('nomeUsuario', `${nome} ${sobrenome}`);
-            localStorage.setItem('cursosUsuario', JSON.stringify(cursosSelecionados));
-            window.location.href = 'pagamento.html';
-          })
-          .catch(() => alert('Erro ao cadastrar.'));
+        .then(res => res.json())
+        .then(data => {
+          alert(data.mensagem || 'Cadastro realizado com sucesso!');
+          localStorage.setItem('nomeUsuario', '${nome} ${sobrenome}');
+          localStorage.setItem('cursosUsuario', JSON.stringify(cursosSelecionados));
+          window.location.href = 'pagamento.html';
+        })
+        .catch(() => alert('Erro ao cadastrar.'));
       });
     });
   </script>

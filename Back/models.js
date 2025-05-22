@@ -1,4 +1,3 @@
-
 const { Sequelize, DataTypes } = require('sequelize');
 const database = new Sequelize('Projetoo', 'root', 'neto', {
   host: 'localhost',
@@ -109,7 +108,7 @@ const Parceria = database.define('Parceria', {
 Usuario.hasMany(Parceria, { foreignKey: 'aluno_id' });
 Parceria.belongsTo(Usuario, { foreignKey: 'aluno_id' });
 
-// Exportar tudo se quiser usar em outros arquivos
+
 module.exports = {
   database,
   Plano,
