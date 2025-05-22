@@ -54,13 +54,15 @@ app.post('/cadastro', async (req, res) => {
     });
 
     if (Array.isArray(cursos) && cursos.length > 0) {
-      const cursosSelecionados = await Curso.findAll({
-        where: {
-          titulo: cursos
-        }
+      const cursosEncontrados = await Curso.findAll({
+        where: { titulo: cursos }
       });
 
-      await novoUsuario.addCursos(cursosSelecionados);
+      if (cursosEncontrados.length === 0) {
+        return res.status(404).json({ mensagem: 'Nenhum curso encontrado com esses nomes.' });
+      }
+
+      await novoUsuario.addCursos(cursosEncontrados);
     }
 
     res.status(201).json({ mensagem: 'Cadastro realizado com sucesso!', usuario: novoUsuario });
