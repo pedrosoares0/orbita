@@ -21,27 +21,12 @@
       box-shadow: 4px 0 10px rgba(0, 0, 0, 0.4);
     }
 
-    .sidebar h2 {
-      font-family: 'Folkmote Neue';
-      color: var(--laranja);
-      font-size: 1.5rem;
-      margin-bottom: 30px;
-    }
-
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .sidebar li {
-      margin: 20px 0;
-    }
-
     .sidebar a {
       color: var(--bege);
       text-decoration: none;
       font-weight: 500;
-      transition: color 0.2s;
+      display: block;
+      margin: 20px 0;
     }
 
     .sidebar a:hover {
@@ -56,7 +41,6 @@
     .welcome {
       font-size: 2rem;
       margin-bottom: 20px;
-      font-family: 'Folkmote Neue';
     }
 
     .info-card {
@@ -88,61 +72,47 @@
       transition: width 0.3s ease;
     }
 
-    .actions {
-      margin-top: 30px;
-    }
-
-    .actions button {
-      background-color: var(--laranja);
-      border: none;
-      padding: 12px 24px;
-      color: white;
-      font-weight: bold;
-      border-radius: 20px;
-      margin-right: 15px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .actions button:hover {
-      background-color: var(--dark-laranja);
-    }
-
     .video-list {
       display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 24px;
       margin-top: 20px;
     }
 
-    .video-thumb {
-      width: 200px;
-      height: 120px;
+    .video-container {
+      background: #222;
       border-radius: 10px;
-      object-fit: cover;
-      transition: transform 0.3s;
+      padding: 16px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 315px;
+      border-radius: 10px;
+    }
+
+    .btn-concluir {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: var(--laranja);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      font-weight: bold;
       cursor: pointer;
     }
 
-    .video-thumb:hover {
-      transform: scale(1.05);
-    }
-
-    .curso-box {
-      margin-bottom: 40px;
+    .btn-concluir:hover {
+      background-color: var(--dark-laranja);
     }
   </style>
 </head>
 <body>
   <div class="sidebar">
-    <a href="index.html" class="logo-voltar">
-      <img src="imagens/logo.webp" alt="Voltar para home">
-    </a>
-    <ul>
-      <li><a href="portalAluno.html">Início</a></li>
-      <li><a href="minhasAulas.html">Minhas Aulas</a></li>
-      <li><a href="login.html">Sair</a></li>
-    </ul>
+    <a href="index.html"><img src="imagens/logo.webp" alt="Voltar para home"></a>
+    <a href="portalAluno.html">Início</a>
+    <a href="minhasAulas.html">Minhas Aulas</a>
+    <a href="login.html">Sair</a>
   </div>
 
   <div class="main-content">
@@ -153,6 +123,7 @@
   <script>
     const nome = localStorage.getItem('nomeUsuario') || 'Aluno';
     const cursos = JSON.parse(localStorage.getItem('cursosUsuario')) || [];
+    const progresso = JSON.parse(localStorage.getItem('progressoCursos')) || {};
 
     document.getElementById('boasVindas').textContent = `Bem-vindo, ${nome.split(' ')[0]}!`;
 
@@ -166,41 +137,72 @@
     const cursoContainer = document.getElementById('cursosContainer');
 
     if (cursos.length === 0) {
-      cursoContainer.innerHTML = "<p>Nenhum curso matriculado. Volte e selecione seus cursos.</p>";
+      cursoContainer.innerHTML = "<p><strong>Nenhum curso matriculado.</strong> Volte e selecione seus cursos.</p>";
     }
 
     cursos.forEach(cod => {
       const nomeCurso = nomesCursos[cod];
-      const videoHTML = `
+      const aulasConcluidas = progresso[cod] || [];
+
+      const linksYouTube = [
+        "https://www.youtube.com/watch?v=Ptbk2af68e8&list=PLmRz6JukPwWNZ8xdJ0CBNNIEv9PHIAE7G",
+        "https://www.youtube.com/watch?v=rUTKomc2gG8&list=PLmRz6JukPwWNZ8xdJ0CBNNIEv9PHIAE7G&index=2",
+        "https://www.youtube.com/watch?v=FdePtO5JSd0&list=PLmRz6JukPwWNZ8xdJ0CBNNIEv9PHIAE7G&index=3",
+        "https://www.youtube.com/watch?v=OmmJBfcMJA8&list=PLmRz6JukPwWNZ8xdJ0CBNNIEv9PHIAE7G&index=4",
+        "https://www.youtube.com/watch?v=Vbabsye7mWo&list=PLmRz6JukPwWNZ8xdJ0CBNNIEv9PHIAE7G&index=5"
+      ];
+
+      const gerarVideos = () => {
+        return linksYouTube.map((link, i) => {
+          const id = i + 1;
+          const concluida = aulasConcluidas.includes(id);
+          return `
+            <div class="video-container">
+              <iframe src="${link}" frameborder="0" allowfullscreen></iframe>
+              <button class="btn-concluir" onclick="concluirAula(${cod}, ${id}, this)" ${concluida ? 'disabled style="opacity: 0.6; cursor: not-allowed;"' : ''}>
+                ${concluida ? 'Aula concluída' : 'Concluir Aula'}
+              </button>
+            </div>
+          `;
+        }).join('');
+      };
+
+      const progressoPercentual = (aulasConcluidas.length / 5) * 100;
+
+      const cardHTML = `
         <div class="info-card curso-box">
           <h3>Curso Matriculado:</h3>
           <p>${nomeCurso}</p>
 
           <h3 style="margin-top:20px;">Progresso:</h3>
-          <p>0 de 10 aulas concluídas</p>
+          <p>${aulasConcluidas.length} de 5 aulas concluídas</p>
           <div class="progress-bar">
-            <div class="progress-bar-fill" style="width: 0%;"></div>
+            <div class="progress-bar-fill" style="width: ${progressoPercentual}%;"></div>
           </div>
 
-          <h3 style="margin-top:20px;">Última aula assistida:</h3>
-          <p>Ainda não iniciada</p>
-
-          <div class="actions">
-            <button onclick="alert('Você ainda não iniciou este curso!')">Começar Curso</button>
-            <button>Baixar Material</button>
-          </div>
-
-          <div class="video-list">
-            <img src="/mnt/data/video-thumb1.png" class="video-thumb" alt="Vídeo 1">
-            <img src="/mnt/data/video-thumb2.png" class="video-thumb" alt="Vídeo 2">
-            <img src="/mnt/data/video-thumb1.png" class="video-thumb" alt="Vídeo 3">
-            <img src="/mnt/data/video-thumb2.png" class="video-thumb" alt="Vídeo 4">
-            <img src="/mnt/data/video-thumb1.png" class="video-thumb" alt="Vídeo 5">
-          </div>
+          <h3 style="margin-top:20px;">Vídeo-aulas:</h3>
+          <div class="video-list">${gerarVideos()}</div>
         </div>
       `;
-      cursoContainer.insertAdjacentHTML('beforeend', videoHTML);
+
+      cursoContainer.insertAdjacentHTML('beforeend', cardHTML);
     });
+
+    function concluirAula(cursoId, aulaId, botao) {
+      let progressoAtual = JSON.parse(localStorage.getItem('progressoCursos')) || {};
+
+      if (!progressoAtual[cursoId]) progressoAtual[cursoId] = [];
+
+      if (!progressoAtual[cursoId].includes(aulaId)) {
+        progressoAtual[cursoId].push(aulaId);
+        localStorage.setItem('progressoCursos', JSON.stringify(progressoAtual));
+        botao.textContent = 'Aula concluída';
+        botao.disabled = true;
+        botao.style.opacity = '0.6';
+        botao.style.cursor = 'not-allowed';
+        location.reload();
+      }
+    }
   </script>
 </body>
 </html>
