@@ -85,9 +85,8 @@
       padding: 16px;
     }
 
-    iframe {
+    video {
       width: 100%;
-      height: 315px;
       border-radius: 10px;
     }
 
@@ -144,21 +143,13 @@
       const nomeCurso = nomesCursos[cod];
       const aulasConcluidas = progresso[cod] || [];
 
-      const linksYouTube = [
-        "https://www.youtube.com/watch?v=Ptbk2af68e8&list=PLmRz6JukPwWNZ8xdJ0CBNNIEv9PHIAE7G",
-        "https://www.youtube.com/watch?v=rUTKomc2gG8&list=PLmRz6JukPwWNZ8xdJ0CBNNIEv9PHIAE7G&index=2",
-        "https://www.youtube.com/watch?v=FdePtO5JSd0&list=PLmRz6JukPwWNZ8xdJ0CBNNIEv9PHIAE7G&index=3",
-        "https://www.youtube.com/watch?v=OmmJBfcMJA8&list=PLmRz6JukPwWNZ8xdJ0CBNNIEv9PHIAE7G&index=4",
-        "https://www.youtube.com/watch?v=Vbabsye7mWo&list=PLmRz6JukPwWNZ8xdJ0CBNNIEv9PHIAE7G&index=5"
-      ];
-
       const gerarVideos = () => {
-        return linksYouTube.map((link, i) => {
+        return Array.from({ length: 5 }, (_, i) => {
           const id = i + 1;
           const concluida = aulasConcluidas.includes(id);
           return `
             <div class="video-container">
-              <iframe src="${link}" frameborder="0" allowfullscreen></iframe>
+              <video controls src="videos/aula0${id}.mp4"></video>
               <button class="btn-concluir" onclick="concluirAula(${cod}, ${id}, this)" ${concluida ? 'disabled style="opacity: 0.6; cursor: not-allowed;"' : ''}>
                 ${concluida ? 'Aula concluída' : 'Concluir Aula'}
               </button>
