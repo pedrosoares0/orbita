@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Portal do Aluno - Órbita</title>
   <link rel="stylesheet" href="styles.css" />
-
   <style>
     body {
       background-color: var(--preto);
@@ -109,6 +108,26 @@
       background-color: var(--dark-laranja);
     }
 
+    .video-list {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .video-thumb {
+      width: 200px;
+      height: 120px;
+      border-radius: 10px;
+      object-fit: cover;
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+
+    .video-thumb:hover {
+      transform: scale(1.05);
+    }
+
     .curso-box {
       margin-bottom: 40px;
     }
@@ -128,49 +147,59 @@
 
   <div class="main-content">
     <div class="welcome" id="boasVindas">Bem-vindo!</div>
-
-    <div id="cursosContainer">
-      <!-- Os cursos serão carregados aqui dinamicamente -->
-    </div>
+    <div id="cursosContainer"></div>
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const nome = localStorage.getItem('nomeUsuario') || 'Aluno';
-      const cursos = JSON.parse(localStorage.getItem('cursosUsuario')) || [];
+    const nome = localStorage.getItem('nomeUsuario') || 'Aluno';
+    const cursos = JSON.parse(localStorage.getItem('cursosUsuario')) || [];
 
-      document.getElementById('boasVindas').textContent = `Bem-vindo, ${nome.split(' ')[0]}!`;
+    document.getElementById('boasVindas').textContent = `Bem-vindo, ${nome.split(' ')[0]}!`;
 
-      const container = document.getElementById('cursosContainer');
+    const nomesCursos = {
+      1: "UX/UI Design",
+      2: "Programação",
+      3: "Cyber Segurança",
+      4: "Ciência de Dados"
+    };
 
-      if (cursos.length === 0) {
-        container.innerHTML = "<p>Nenhum curso matriculado. Volte e selecione seus cursos.</p>";
-        return;
-      }
+    const cursoContainer = document.getElementById('cursosContainer');
 
-      cursos.forEach(curso => {
-        const cursoHTML = `
-          <div class="info-card curso-box">
-            <h3>Curso Matriculado:</h3>
-            <p>${curso}</p>
+    if (cursos.length === 0) {
+      cursoContainer.innerHTML = "<p>Nenhum curso matriculado. Volte e selecione seus cursos.</p>";
+    }
 
-            <h3 style="margin-top:20px;">Progresso:</h3>
-            <p>0 de 10 aulas concluídas</p>
-            <div class="progress-bar">
-              <div class="progress-bar-fill" style="width: 0%;"></div>
-            </div>
+    cursos.forEach(cod => {
+      const nomeCurso = nomesCursos[cod];
+      const videoHTML = `
+        <div class="info-card curso-box">
+          <h3>Curso Matriculado:</h3>
+          <p>${nomeCurso}</p>
 
-            <h3 style="margin-top:20px;">Última aula assistida:</h3>
-            <p>Ainda não iniciada</p>
-
-            <div class="actions">
-              <button onclick="alert('Você ainda não iniciou este curso!')">Começar Curso</button>
-              <button>Baixar Material</button>
-            </div>
+          <h3 style="margin-top:20px;">Progresso:</h3>
+          <p>0 de 10 aulas concluídas</p>
+          <div class="progress-bar">
+            <div class="progress-bar-fill" style="width: 0%;"></div>
           </div>
-        `;
-        container.insertAdjacentHTML('beforeend', cursoHTML);
-      });
+
+          <h3 style="margin-top:20px;">Última aula assistida:</h3>
+          <p>Ainda não iniciada</p>
+
+          <div class="actions">
+            <button onclick="alert('Você ainda não iniciou este curso!')">Começar Curso</button>
+            <button>Baixar Material</button>
+          </div>
+
+          <div class="video-list">
+            <img src="/mnt/data/video-thumb1.png" class="video-thumb" alt="Vídeo 1">
+            <img src="/mnt/data/video-thumb2.png" class="video-thumb" alt="Vídeo 2">
+            <img src="/mnt/data/video-thumb1.png" class="video-thumb" alt="Vídeo 3">
+            <img src="/mnt/data/video-thumb2.png" class="video-thumb" alt="Vídeo 4">
+            <img src="/mnt/data/video-thumb1.png" class="video-thumb" alt="Vídeo 5">
+          </div>
+        </div>
+      `;
+      cursoContainer.insertAdjacentHTML('beforeend', videoHTML);
     });
   </script>
 </body>
