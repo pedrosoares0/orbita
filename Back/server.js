@@ -29,7 +29,7 @@ app.get('/cursos', async (req, res) => {
 
 app.post('/cta-button', (req, res) => {
   const { cursoId } = req.body;
-  console.log('Usuário se inscreveu no curso com ID: ${cursoId}');
+  console.log(`Usuário se inscreveu no curso com ID: ${cursoId}`);
   res.json({ mensagem: 'Inscrição recebida com sucesso!' });
 });
 
@@ -47,7 +47,7 @@ app.post('/cadastro', async (req, res) => {
     }
 
     const novoUsuario = await Usuario.create({
-      nome: '${nome} ${sobrenome}',
+      nome: `${nome} ${sobrenome}`,
       email,
       senha,
       tipo
@@ -96,5 +96,5 @@ app.post('/login', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log('Servidor rodando em http://localhost:${PORT}');
+  console.log(`Servidor rodando em http://localhost:${PORT}`);
 });

@@ -62,7 +62,7 @@
         .then(res => res.json())
         .then(data => {
           alert(data.mensagem || 'Cadastro realizado com sucesso!');
-          localStorage.setItem('nomeUsuario', '${nome} ${sobrenome}');
+          localStorage.setItem('nomeUsuario', `${nome} ${sobrenome}`);
           localStorage.setItem('cursosUsuario', JSON.stringify(cursosSelecionados));
           window.location.href = 'pagamento.html';
         })
