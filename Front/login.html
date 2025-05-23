@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login - Órbita</title>
   <link rel="stylesheet" href="styles.css">
+   <link rel="icon" type="image/webp" href="imagens/logoIcone.png">
 </head>
 <body class="login-page">
   <div class="login-wrapper">
@@ -17,6 +18,11 @@
       <form id="login-form">
         <input type="email" placeholder="Email" required />
         <input type="password" placeholder="Senha" required />
+        <select id="tipoUsuario" required>
+          <option value="">Selecione o tipo</option>
+          <option value="aluno">Aluno</option>
+          <option value="professor">Professor</option>
+        </select>
         <button type="submit">Entrar</button>
       </form>
 
@@ -36,27 +42,38 @@
 
         const email = form.querySelector('input[type="email"]').value;
         const senha = form.querySelector('input[type="password"]').value;
+        const tipo = document.getElementById('tipoUsuario').value;
+
+        if (!tipo) {
+          alert("Selecione se você é aluno ou professor.");
+          return;
+        }
 
         fetch('http://localhost:3000/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, senha })
         })
-          .then(res => {
-            if (!res.ok) throw new Error('Login inválido');
-            return res.json();
-          })
-          .then(data => {
-            alert(data.mensagem || 'Login realizado com sucesso!');
-            localStorage.setItem('nomeUsuario', data.usuario.nome);
+        .then(res => {
+          if (!res.ok) throw new Error('Login inválido');
+          return res.json();
+        })
+        .then(data => {
+          alert(data.mensagem || 'Login realizado com sucesso!');
+          localStorage.setItem('nomeUsuario', data.usuario.nome);
+
+          if (tipo === 'aluno') {
             const titulos = data.cursos.map(c => c.titulo);
             localStorage.setItem('cursosUsuario', JSON.stringify(titulos));
             window.location.href = 'portalAluno.html';
-          })
-          .catch(err => {
-            alert('Email ou senha incorretos.');
-            console.error(err);
-          });
+          } else {
+            window.location.href = 'portalProfessor.html';
+          }
+        })
+        .catch(err => {
+          alert('Email ou senha incorretos.');
+          console.error(err);
+        });
       });
     });
   </script>

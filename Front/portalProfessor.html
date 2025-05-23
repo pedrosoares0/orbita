@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portal do Professor - Órbita</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/webp" href="imagens/logoIcone.png">
+  <style>
+    body {
+      background-color: var(--preto);
+      color: var(--bege);
+      font-family: 'SF UI Display', sans-serif;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 240px;
+      background-color: var(--vinho);
+      min-height: 100vh;
+      padding: 40px 20px;
+      box-shadow: 4px 0 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .sidebar a {
+      color: var(--bege);
+      text-decoration: none;
+      font-weight: 500;
+      display: block;
+      margin: 20px 0;
+    }
+
+    .sidebar a:hover {
+      color: var(--laranja);
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 60px;
+    }
+
+    .welcome {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .info-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 14px;
+      padding: 30px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(8px);
+    }
+
+    .info-card h3 {
+      font-size: 1.2rem;
+      color: var(--laranja);
+      margin-bottom: 10px;
+    }
+
+    .video-list {
+      display: flex;
+      gap: 16px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      margin-top: 20px;
+    }
+
+    .video-container {
+      background: #222;
+      border-radius: 10px;
+      padding: 10px;
+      width: 220px;
+      flex-shrink: 0;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 10px;
+      height: 130px;
+      object-fit: cover;
+    }
+
+    .btn-adicionar {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: var(--laranja);
+      color: white;
+      border: none;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .formulario-aula {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: rgba(255, 255, 255, 0.02);
+      border-radius: 14px;
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .formulario-aula input,
+    .formulario-aula textarea {
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background-color: #333;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <a href="index.html"><img src="imagens/logo.webp" alt="Voltar para home"></a>
+    <a href="portalProfessor.html">Início</a>
+    <a href="login.html">Sair</a>
+  </div>
+
+  <div class="main-content">
+    <div class="welcome" id="boasVindas">Olá, Professor!</div>
+
+    <div class="info-card">
+      <h3>Minhas Aulas:</h3>
+      <div class="video-list" id="listaAulas"></div>
+      <button class="btn-adicionar" onclick="mostrarFormulario()">Adicionar Nova Aula</button>
+
+      <div class="formulario-aula" id="formularioAula">
+        <input type="text" id="tituloAula" placeholder="Título da Aula" required />
+        <textarea id="descricaoAula" rows="3" placeholder="Descrição da Aula"></textarea>
+        <input type="file" id="videoAula" accept="video/*" />
+        <button class="btn-adicionar" onclick="adicionarAula()">Salvar Aula</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const nome = localStorage.getItem('nomeUsuario') || 'Professor';
+    document.getElementById('boasVindas').textContent = `Olá, ${nome.split(' ')[0]}!`;
+
+    const listaAulas = document.getElementById('listaAulas');
+    const aulasAdicionadas = [];
+
+    function exibirAulasFixas() {
+      const aulasFixas = [1, 2, 3, 4, 5];
+      listaAulas.innerHTML = '';
+      aulasFixas.forEach(id => {
+        listaAulas.innerHTML += `
+          <div class="video-container">
+            <video controls src="videos/aula0${id}.mp4" poster="thumbs/aula0${id}.jpg"></video>
+            <p><strong>Aula ${id}</strong></p>
+            <p style="font-size: 0.85rem; opacity: 0.7;">Descrição da aula ${id}.</p>
+          </div>
+        `;
+      });
+      aulasAdicionadas.forEach(({ titulo, descricao, url }, index) => {
+        listaAulas.innerHTML += `
+          <div class="video-container">
+            <video controls src="${url}"></video>
+            <p><strong>${titulo}</strong></p>
+            <p style="font-size: 0.85rem; opacity: 0.7;">${descricao}</p>
+          </div>
+        `;
+      });
+    }
+
+    function mostrarFormulario() {
+      const form = document.getElementById('formularioAula');
+      form.style.display = form.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function adicionarAula() {
+      const titulo = document.getElementById('tituloAula').value;
+      const descricao = document.getElementById('descricaoAula').value;
+      const video = document.getElementById('videoAula').files[0];
+
+      if (!titulo || !video) {
+        alert('Preencha o título e selecione um vídeo.');
+        return;
+      }
+
+      const url = URL.createObjectURL(video);
+      aulasAdicionadas.push({ titulo, descricao, url });
+      exibirAulasFixas();
+
+      document.getElementById('formularioAula').reset();
+      document.getElementById('formularioAula').style.display = 'none';
+    }
+
+    exibirAulasFixas();
+  </script>
+</body>
+</html>
