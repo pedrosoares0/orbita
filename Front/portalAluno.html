@@ -95,14 +95,6 @@
       object-fit: cover;
     }
 
-    .video-thumb {
-      width: 100%;
-      height: 130px;
-      object-fit: cover;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
     .btn-concluir {
       margin-top: 8px;
       padding: 8px 16px;
@@ -136,7 +128,12 @@
   <script>
     const nome = localStorage.getItem('nomeUsuario') || 'Aluno';
     const cursos = JSON.parse(localStorage.getItem('cursosUsuario')) || [];
-    const progresso = JSON.parse(localStorage.getItem('progressoCursos')) || {};
+
+    if (!localStorage.getItem('progressoCursos')) {
+      localStorage.setItem('progressoCursos', JSON.stringify({}));
+    }
+
+    const progresso = JSON.parse(localStorage.getItem('progressoCursos'));
 
     document.getElementById('boasVindas').textContent = `Bem-vindo, ${nome.split(' ')[0]}!`;
 
@@ -194,7 +191,7 @@
     });
 
     function concluirAula(cursoId, aulaId, botao) {
-      let progressoAtual = JSON.parse(localStorage.getItem('progressoCursos')) || {};
+      const progressoAtual = JSON.parse(localStorage.getItem('progressoCursos')) || {};
 
       if (!progressoAtual[cursoId]) progressoAtual[cursoId] = [];
 

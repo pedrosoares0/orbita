@@ -18,9 +18,9 @@ async function seedCursos() {
         defaults: curso
       });
       if (criado) {
-        console.log('✅ Curso "${curso.titulo}" inserido.');
+        console.log(`✅ Curso "${curso.titulo}" inserido.`);
       } else {
-        console.log('ℹ Curso "${curso.titulo}" já existe.');
+        console.log(`ℹ Curso "${curso.titulo}" já existe.`);
       }
     }
 
